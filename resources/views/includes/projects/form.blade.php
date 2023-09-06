@@ -32,13 +32,30 @@
       @enderror
     </div>
   </div>
-  <div class="col-12">
+  <div class="col-6">
     <div class="mb-3">
       <label for="image" class="form-label">Image</label>
       <input type="file"
         class="form-control @error('image') is-invalid @elseif(old('image')) is-valid @enderror"
         id="image" name="image">
       @error('image')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+      @enderror
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="mb-3">
+      <label for="type_id" class="form-label">Type</label>
+      <select class="form-select @error('type_id') is-invalid @elseif(old('type_id')) is-valid @enderror"
+        name="type_id" id="type_id">
+        <option value="">None</option>
+        @foreach ($types as $type)
+          <option value="{{ $type->id }}">{{ $type->label }}</option>
+        @endforeach
+      </select>
+      @error('type_id')
         <div class="invalid-feedback">
           {{ $message }}
         </div>

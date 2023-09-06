@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -25,7 +26,8 @@ class ProjectController extends Controller
     public function create()
     {
         $project = new Project();
-        return view('admin.projects.create', compact('project'));
+        $types = Type::all();
+        return view('admin.projects.create', compact('project', 'types'));
     }
 
     /**
@@ -37,7 +39,8 @@ class ProjectController extends Controller
             [
                 'title' => 'required|string|max:20',
                 'description' => 'required|string',
-                'image' => 'nullable|file'
+                'image' => 'nullable|file',
+                'type_id' => 'nullable|numeric'
             ]
         );
 
@@ -49,10 +52,8 @@ class ProjectController extends Controller
             $data['image'] = $img_url;
         }
 
-        $project->title = $data['title'];
-        $project->description = $data['description'];
-        $project->slug = Str::slug($project->title, '-');
-        $project->image = $data['image'];
+        $data['slug'] = Str::slug($data['title'], '-');
+        $project->fill($data);
         $project->save();
 
         return to_route('admin.projects.show', $project);
@@ -71,7 +72,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::all();
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -83,7 +85,8 @@ class ProjectController extends Controller
             [
                 'title' => 'required|string|max:20',
                 'description' => 'required|string',
-                'image' => 'nullable|file'
+                'image' => 'nullable|file',
+                'type_id' => 'nullable|numeric'
             ]
         );
 
