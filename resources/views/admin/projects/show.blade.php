@@ -6,7 +6,7 @@
 
     @if ($project->image)
       <figure>
-        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
+        <img src="{{ 'storage/app/public' . $project->image }}" alt="{{ $project->title }}">
       </figure>
     @endif
 
@@ -14,6 +14,7 @@
     <p>{{ $project->description }}</p>
     <p><b>Created at: </b>{{ $project->created_at }}</p>
     <p><b>Last update: </b>{{ $project->updated_at }}</p>
+    <p><b>Type: </b>{{ $project->type?->label }}</p>
     <hr>
 
     <a class="btn btn-warning" href="{{ route('admin.projects.edit', $project) }}">Edit</a>
