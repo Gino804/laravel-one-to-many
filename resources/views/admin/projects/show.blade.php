@@ -6,7 +6,7 @@
 
     @if ($project->image)
       <figure>
-        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
+        <img src="{{ 'storage/app/public' . $project->image }}" alt="{{ $project->title }}">
       </figure>
     @endif
 
